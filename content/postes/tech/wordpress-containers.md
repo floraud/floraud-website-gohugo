@@ -12,7 +12,7 @@ Nous allons étudier au cours cet article comment déployer plusieurs containers
 
 ### Définition des concepts
 
-- **Container** : Un **environnement isolé sur un serveur** dans lequel est **cloisonnée une application ainsi que ses dépendances**. Son intérêt réside dans son isolation car, tout en partageant les ressources du noyau, les différents containers peuvent chacun avoir une version différente d'une dépendance qui aurait pu être commune sur le serveur. Par exemple, dans le contexte des serveurs WordPress, chaque conteneur peut avoir sa propre version de PHP sans interférer avec l'environnement du serveur ou des autres containers, offrant ainsi une gestion des dépendances plus flexible et évitant les conflits potentiels entre les différentes applications hébergées sur le même serveur. Aussi, ils sont **indépendants de l'environnement hôte**, ce qui permet leur portabilité et de les déployer aussi bien sur un PC personnel que sur un serveur Windows ou Linux.
+- **Container** : Un **environnement isolé sur un serveur** dans lequel est **cloisonnée une application ainsi que ses dépendances**. Son intérêt réside dans son isolation car tout en partageant les ressources du noyau, les différents containers peuvent chacun avoir une version différente d'une dépendance qui aurait pu être commune sur le serveur. Par exemple, dans le contexte des serveurs WordPress, chaque conteneur peut avoir sa propre version de PHP sans interférer avec l'environnement du serveur ou des autres containers, offrant ainsi une gestion des dépendances plus flexible et évitant les conflits potentiels entre les différentes applications hébergées sur le même serveur. Aussi, ils sont **indépendants de l'environnement hôte**, ce qui permet leur portabilité et de les déployer aussi bien sur un PC personnel que sur un serveur Windows ou Linux.
 - **Docker** : Docker est une plateforme de conteneurisation qui permet de **gérer lesdits containers**. Il regroupe **différents outils permettant l'exploitation des containers** tels que son moteur exécutant les containers, le registre pour les consulter ainsi que leurs volumes de données et leurs réseaux. Il y a aussi **Docker Compose** permettant de spécifier les paramètres de lancement des containers. Docker fournit aussi des images officielles standardisées mises à disposition par les mainteneurs des applications via son catalogue **Docker Hub**.
 - **Let's Encrypt** : Autorité de certification permettant de **générer des certificats** gratuitement et automatiquement pour activer l'**HTTPS** sur les sites web et offrir une identification ainsi qu'un chiffrement de bout en au bout aux utilisateurs.
 - **Traefik** : Dans notre cas, ça sera notre **reverse proxy**, c'est-à-dire que ça sera l'application qui **triera les requêtes HTTP** en fonction du nom de domaine contenu dans la requête pour les diriger vers le bon container. Il nous permet aussi de **gérer le certificat Let's Encrypt et rediriger le trafique de l'HTTP vers l'HTTPS**.
@@ -28,6 +28,7 @@ Nous allons étudier au cours cet article comment déployer plusieurs containers
 - Téléchargez le **[code du git du lab](https://git.floraud.fr/floraud/wordpress-docker/archive/main.tar.gz)** en fonction de l'hôte. Sur Alma il suffit de faire `curl -L0 https://git.floraud.fr/floraud/wordpress-docker/archive/main.tar.gz | tar -xz` pour télécharger le code et décompresser le fichier.
 
 ### Architecture
+
 L'objectif à la fin est de disposer de l'architecture suivante sur le serveur :
 - Seul Traefik doit être en contact avec Internet.
 - Chaque container WordPress ne doit entrer qu'en communication avec Traefik et son propre MariaDB.
@@ -42,6 +43,7 @@ Pour que le code soit plus facilement exploitable, il a été divisé en différ
 - Il y a finalement les dossiers comprenant les fichiers de mot de passe par défaut qu'il faudra modifier avec vos propres comptes et mdp.
 
 ### Premier fichier : Traefik
+
 Traefik, configuré dans le fichier `docker-compose.yml`, sera le cœur de notre architecture. Comme présenté auparavant, c'est lui qui va rediriger les requêtes aux différents WordPress sur la base des URL appelées et qui va obtenir les certificats Let's Encrypt pour le chiffrement des sites. On déclare aussi dans ce fichier nos réseaux. On va étudier les différentes lignes de code que l'on y trouve. 
 
 ```yml
@@ -89,7 +91,7 @@ networks:
 - `#- "--log.level=DEBUG"` : utilisé de concert avec `#- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"` pour du debug certificat, je l'ai laissé en as de besoin.
 - `#- "--api.insecure=true"` associé à la ligne `- "8080:8080"` dans les ports permet d'avoir accès au dashboard Traefik. Dans le cadre d'un PoC ça peut être utilisé pour comprendre un peu le fonctionnement, mais n'y voyant pas d'utilité, je l'ai désactivé.
 - `- "--providers.docker=true"` : on dit à Traefik de surveiller Docker via son API pour voir les nouveaux containers mis en ligne.
-- `networks` : Le premier niveau, celui avec la même indentation que `volumes` sert à placer le container Traefik dans les réseaux généraux que l'on a déclaré ensemble, à savoir `wp1-net` et `wp2-net`. Le deuxième, tout en bas du fichier, sert à créer les réseaux en question. Un /16 par défaut.
+- `networks` : Le premier niveau, celui avec la même indentation que `volumes` sert à placer le container Traefik dans les réseaux généraux que l'on a déclarés ensemble, à savoir `wp1-net` et `wp2-net`. Le deuxième, tout en bas du fichier, sert à créer les réseaux en question. Un /16 par défaut.
 - `- "--providers.docker.exposedbydefault=false"` : on lui dit de ne pas exposer par défaut tous les containers qu'il voit via l'API Docker, comme les bases de données où les ***sidecars*** WP-CLI.
 - Le bloc ci-dessous permet simplement de rediriger le trafique HTTP qui arrive sur le port 80 vers l'HTTPS pour que tout le trafique soit chiffré.
 ```
@@ -225,9 +227,9 @@ networks:
 
 ### Déploiement
 
-Dans le dossier, lancez le déploiement des containers à l'aide de `docker compose -f docker-compose.yml -f docker-compose-site1.yml up -d` (ça prend environ 40 secondes pour que le sidecar WP-CLI fasse son office, vous pouvez allonger ou réduire le temps en fonction de la réactivité de votre host en remplacant `command: -c 'sleep 40` par la la valeur que vous préferez).
+Dans le dossier, lancez le déploiement des containers à l'aide de `docker compose -f docker-compose.yml -f docker-compose-site1.yml up -d` (ça prend environ 40 secondes pour que le sidecar WP-CLI fasse son office, vous pouvez allonger ou réduire le temps en fonction de la réactivité de votre host en remplaçant `command: -c 'sleep 40` par la valeur que vous préférez).
 - Vous pouvez lancer le site2 à l'aide de `docker compose -f docker-compose-site2.yml up -d`.
-- Vous pouvez arretez les containers en utilisant les commandes `docker compose -f docker-compose-site2.yml down` ou `docker compose -f docker-compose.yml -f docker-compose-site1.yml down`.
+- Vous pouvez arrêter les containers en utilisant les commandes `docker compose -f docker-compose-site2.yml down` ou `docker compose -f docker-compose.yml -f docker-compose-site1.yml down`.
 
 ### Visualisation et navigation
 
@@ -239,6 +241,7 @@ Dans le dossier, lancez le déploiement des containers à l'aide de `docker comp
 - Pour supprimer des réseaux qui ne sont pas en cours d'exécution `docker network prune --all`.
 
 ## Conclusion
+
 Bien que ce lab soit imparfait pour de la production car il n'y a pas d'orchestration pour gérer le cycle de vie des containers et la haute-disponibilité (ce que permet de faire un outil comme Kubernetes), on est maintenant en mesure de déployer simplement et à volonté des containers sur notre serveur pour réaliser nos tests sans nous ruiner. Cela nous a permis de découvrir le concept de container et une des solutions majeures sur le marché qu'est Docker pour pouvoir monter des labs rapidement.
 
 *Photo de bannière par [Erwan Hesry](https://unsplash.com/fr/@erwanhesry?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) sur [Unsplash](https://unsplash.com/fr/photos/plusieurs-conteneurs-de-fret-RJjY5Hpnifk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)*

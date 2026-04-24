@@ -1,7 +1,7 @@
 +++
 title = 'Cisco Nexus - Configuration du Peer Keepalive'
 categories = ["Tech"]
-tags = ["Reseau", "Cisco", "Nexus"]
+tags = ["Reseau", "Cisco", "Nexus", "Troubleshooting"]
 featured_image = "/images/tech/nexus-peer-keepalive_cover_monisha-selvakumar.webp"
 date = 2025-01-01T13:14:22+01:00
 +++
@@ -34,12 +34,13 @@ Après avoir consulté les **[Best Practices Cisco](https://www.cisco.com/c/dam/
 ### 1. Brancher les câbles et effectuer les contrôles habituels
 
 Par habitude :
-- Je sauvegarde la configuration. 
+- Je sauvegarde la configuration.
 - Je contrôle l'état et le `show run` des différents éléments que je vais configurer par la suite pour m'assurer que les futures interfaces, PO ou autre ne sont pas déjà configurés/utilisés.
 
 ### 2. Création d'une nouvelle VRF
 
 Sur chaque équipement :
+
 ```
 conf t
 vrf context vpc_keepalive
@@ -68,6 +69,7 @@ no shut
 ### 4. Configuration du port-channel sur chaque switch ainsi qu'une adresse IP différente
 
 Switch 1 :
+
 ```
 interface port-channel1
 description vpc_keepalive
@@ -78,6 +80,7 @@ no shutdown
 ```
 
 Switch 2 :
+
 ```
 interface port-channel1
 description vpc_keepalive
@@ -96,6 +99,7 @@ On contrôle le tout avec les commandes ci-dessous :
 ### 5. Modification du peer-keepalive existant
 
 Switch 1 :
+
 ```
 vpc domain 1
 peer-keepalive destination 192.0.2.2 source 192.0.2.1 vrf vpc_keepalive
@@ -103,6 +107,7 @@ end
 ```
 
 Switch 2 :
+
 ```
 vpc domain 1
 peer-keepalive destination 192.0.2.1 source 192.0.2.2 vrf vpc_keepalive
@@ -142,11 +147,11 @@ vPC Keep-alive parameters
 --Keepalive hold timeout : 3 seconds
 --Keepalive vrf : vpc_keepalive
 ```
-Et on oublie pas son `copy run start` ! 😉
+Et on n'oublie pas son `copy run start` ! 😉
 
 ## Conclusion
 **Bien configurer son peer keepalive** permet de laisser l'équipe réseau dormir sur ses deux oreilles lors d'un incident aussi grave que l'arrêt électrique d'un datacenter. On a ainsi la **certitude que nos Cisco Nexus seront capables de reprendre la main correctement une fois de nouveau alimentés électriquement**.
 
-Pour aller plus loin on pense aussi à mettre en place la supervision de ce lien afin de s'assurer de ne plus jamais être surpris.
+Pour aller plus loin, on pense aussi à mettre en place la supervision de ce lien afin de s'assurer de ne plus jamais être surpris.
 
 *Photo de bannière par [Monisha Selvakumar](https://unsplash.com/fr/@monishaselv?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) sur [Unsplash](https://unsplash.com/fr/photos/un-gros-plan-dune-fleur-avec-beaucoup-de-lumieres-floues-qv8f7x7QtZo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)*

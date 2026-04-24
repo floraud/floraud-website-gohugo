@@ -14,14 +14,14 @@ Bien qu'il existe des entreprises spécialisées dans le domaine, tout le monde 
 
 Avant d'agir, analysons le problème.
 
-**Attention** : **Chaque action** que vous faites sur un stockage défectueux **peut être la dernière** s'il est déjà dans un mauvais état. Effectivement, chaque nouveau travail dessus peut l'user davantage et lui être fatal donc réfléchissez bien avant d'agir. L'intérêt de l'outil que l'on va utiliser par la suite (ddrescue) est que l'on va créer une image identique du disque que l'on essaye de sauver, ce qui permet de s'affranchir de ces risques par la suite en effectuant une copie brute, bit par bit du disque.
+**Attention** : **Chaque action** que vous faites sur un stockage défectueux **peut être la dernière** s'il est déjà dans un mauvais état. Effectivement, chaque nouveau travail dessus peut l'user davantage et lui être fatal, donc réfléchissez bien avant d'agir. L'intérêt de l'outil que l'on va utiliser par la suite (ddrescue) est que l'on va créer une image identique du disque que l'on essaye de sauver, ce qui permet de s'affranchir de ces risques par la suite en effectuant une copie brute, bit par bit du disque.
 
 ## Analyse de l'état du disque
 
 C'est un SSD externe de 500 Go de stockage et vieux de 12 ans. Lorsqu'il est branché, il émet un sifflement, qui d'après un collègue expérimenté en électronique, pourrait provenir d'un condensateur défectueux. Une panne sérieuse donc.
-Pour me démonter le problème, l'utilisateur le branche à son PC (Windows) pour que je puisse observer le comportement. Effectivement, on peut voir les dossiers à la racine du disque dans l'explorateur Windows mais dès que l'on réalise un clic gauche ou droit sur un dossier, le disque ne répond plus et peut se déconnecter de l'ordinateur, de même pour toute action de copie classique. Cela peut s'expliquer par la tentative de lecture de certains secteurs défectueux.
+Pour me démonter le problème, l'utilisateur le branche à son PC (Windows) pour que je puisse observer le comportement. Effectivement, on peut voir les dossiers à la racine du disque dans l'explorateur Windows, mais dès que l'on réalise un clic gauche ou droit sur un dossier, le disque ne répond plus et peut se déconnecter de l'ordinateur, de même pour toute action de copie classique. Cela peut s'expliquer par la tentative de lecture de certains secteurs défectueux.
 
-En le rebranchant, je tente quand même d'utiliser un de mes câbles micro-USB que je sais fonctionnel mais nous n'avons pas plus de chance.
+En le rebranchant, je tente quand même d'utiliser un de mes câbles micro-USB que je sais fonctionnel, mais nous n'avons pas plus de chance.
 
 Je prends la décision de tenter un robocopy Windows qui est une des méthodes de copy les plus fiables sur l'OS de Microsoft.
 
@@ -44,7 +44,7 @@ Je prends donc la décision de le brancher sur mon système Linux pour voir s'il
 
 Pas de chance, sous Fedora en interface graphique, j'observe le même problème que sous Windows et en ligne de commande, la commande de copie (cp) ne semble pas répondre correctement et tourne dans le vide sans résultat.
 
-Je me renseigne sur Internet et trouve le logiciel **ddrescue** qui semble prometteur.
+Je me renseigne sur Internet et trouve le logiciel **ddrescue** qui parait prometteur.
 
 En bref **ddrescue permet de copier les données d'un disque et de les reproduire à l'identique sur un autre disque**. Ça tombe bien, je possède un disque sain en plus !
 
@@ -56,7 +56,7 @@ J'ai ensuite lancé la commande `ddrescue -f -d -r 3 /dev/sda /dev/sdb /home/flo
 - **-r 3** : limite le nombre de tentatives de relecture des secteurs endommagés à 3 fois.
 - **/dev/sda** : disque source.récupérés
 - **/dev/sdb** : disque destination.
-- **/home/user/ddrescue.log** : destination de votre fichier de log. C'est très important car en cas de plantage de la commande ou, si vous souhaitez relancer des actions supplémentaires, il pourra en récupérer le dernier l'état rencontré car il liste les secteurs du disque recupérés ou endommagés.
+- **/home/user/ddrescue.log** : destination de votre fichier de log. C'est très important car en cas de plantage de la commande ou, si vous souhaitez relancer des actions supplémentaires, il pourra en récupérer le dernier l'état rencontré car il liste les secteurs du disque récupérés ou endommagés.
 
 Un exemple du monitor que vous aurez :
 
