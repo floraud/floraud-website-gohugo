@@ -22,23 +22,23 @@ Définition provenant du [fournisseur](https://www.tridex-epdm.be/fr/produits/qu
 
 Nous avons commencé par retirer le **bon millier de tuiles** qui se trouvait sur le toit.
 
-![tuiles](/images/maison/epdm_1.webp)
+![tuiles](/blog/images/maison/epdm_1.webp)
 
 Nous avons ensuite retiré les liteaux et sa bâche tout en remettant au propre les angles en béton des murs afin de pouvoir poser les planches d'OSB (Oriented Strand Board) par la suite.
-![liteaux retirés](/images/maison/epdm_2.webp)
+![liteaux retirés](/blog/images/maison/epdm_2.webp)
 
 Une fois fait, nous avons fixé des planches d'OSB sur les chevrons.
-![planches OSB](/images/maison/epdm_3.webp)
+![planches OSB](/blog/images/maison/epdm_3.webp)
 
 Ensuite, nous avons mis le pare-vapeur, ainsi, la mise au sec de la première journée était réalisée.
-![pare-vapeur](/images/maison/epdm_4.webp)
+![pare-vapeur](/blog/images/maison/epdm_4.webp)
 
 ## Jour 2
 
 Nous avons commencé par nettoyer ce que nous avions posé la veille et **coller les plaques d'isolant au pare-vapeur**, ce qui nous a pris la matinée.
 
 Le plus long fut la dépose de la bâche EPDM car nous avons voulu suivre la vidéo du fournisseur et la poser en la pliant en 2, comme ci-dessous :
-![epdm](/images/maison/epdm_5.webp)
+![epdm](/blog/images/maison/epdm_5.webp)
  
 Cependant, plié seulement en 2, c'était trop grand pour la manipuler correctement, même à 5, et nous avons eu du mal à maroufler toutes les bulles de la première bâche.
 

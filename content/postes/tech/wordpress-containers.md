@@ -34,7 +34,7 @@ L'objectif à la fin est de disposer de l'architecture suivante sur le serveur :
 - Chaque container WordPress ne doit entrer qu'en communication avec Traefik et son propre MariaDB.
 - Chaque site a son propre réseau isolé de l'autre site.
 
-![topologie](/images/tech/wordpress-containers_topology.webp)
+![topologie](/blog/images/tech/wordpress-containers_topology.webp)
 
 Pour que le code soit plus facilement exploitable, il a été divisé en différents fichiers :
 - `docker-compose.yml` : contient la configuration réseau.

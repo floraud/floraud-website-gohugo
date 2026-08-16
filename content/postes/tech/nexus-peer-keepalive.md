@@ -14,7 +14,7 @@ Dans le cadre de la configuration des **vPC** sur des **cœurs de réseau Cisco 
 
 C'est un **virtual Port-Channel** qui permet de **relier un équipement physique, tel qu'un serveur, à deux switchs physiques différents en montant un seul port-channel en un agrégat de lien**. Cela permet de redonder physiquement les liens et d'utiliser en permanence les deux liens sans avoir besoin de spanning-tree tel que ci-dessous :
 
-![Topologie vPC](/images/tech/nexus-peer-keepalive_vpc.webp)
+![Topologie vPC](/blog/images/tech/nexus-peer-keepalive_vpc.webp)
 
 Pour que cela fonctionne, sur Cisco Nexus, nous devons déclarer ce que l'on appelle un **vPC domain**. Mais **qu'est-ce que c'est ?**
 
