@@ -1,5 +1,5 @@
-title = "Floraud"
-baseURL = "https://floraud.fr"
+title = "Floraud Blog"
+baseURL = "https://floraud.fr/blog/"
 languageCode = "fr"
 # Dossier dans lequel seront stockés des fichiers optimisés que Hugo traite en interne
 resourceDir = "../resources"
@@ -37,21 +37,38 @@ path = 'github.com/theNewDynamic/gohugo-theme-ananke/v2'
   background_color_class = "bg-black"
   recent_posts_number = 5
 
+[params.ananke.social.home]
+profilelink = "/"
+
+[params.ananke.social.networks.home]
+slug = "home"
+label = "Accueil"
+profile = "/"
+icon = "home"
+
 [params.ananke.social.networks.git]
 label = "Git"
 profile = "https://git.floraud.fr/floraud"
-icon = "git-alt" 
+icon = "git-alt"
+
+[params.ananke.social.email]
+profilelink = "mailto:contact+blog@floraud.fr"
+
+[params.ananke.social.rss]
+profilelink = "/blog/index.xml"
 
 [params.ananke.social]
   [params.ananke.social.follow]
   new_window_icon = true
   networks = [
+  "home",
   "git",
-  "github"
+  "email",
+  "rss"
   ]
 
-[params.ananke.social.github]
-username = "floraud"
+# [params.ananke.social.github]
+# username = "floraud"
 
 # [params.ananke.social.share]
 # icons = true
