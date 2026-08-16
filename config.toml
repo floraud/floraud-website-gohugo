@@ -1,6 +1,7 @@
 title = "Floraud Blog"
 baseURL = "https://floraud.fr/blog/"
 languageCode = "fr"
+theme = "ananke"
 # Dossier dans lequel seront stockés des fichiers optimisés que Hugo traite en interne
 resourceDir = "../resources"
 # La description ci-dessous aide à la description des metadata
@@ -12,13 +13,6 @@ DefaultContentLanguage = "fr"
 
 # Nombre d'article par page
 pagination.pagerSize = 9
-
-[module]
-[[module.imports]]
-disable = false
-ignoreConfig = false
-ignoreImports = false
-path = 'github.com/theNewDynamic/gohugo-theme-ananke/v2'
 
 [sitemap]
   # Permet au moteur de recherche d'indexer plus efficacement le site en suivant les consignes
@@ -48,10 +42,12 @@ icon = "home"
 [params.ananke.social.networks.git]
 label = "Git"
 profile = "https://git.floraud.fr/floraud"
-icon = "git-alt"
+icon = "git"
 
-[params.ananke.social.email]
-profilelink = "mailto:contact+blog@floraud.fr"
+[params.ananke.social.networks.email]
+label = "Email"
+profile = "mailto:contact+blog@floraud.fr"
+icon = "email"
 
 [params.ananke.social.rss]
 profilelink = "/blog/index.xml"
