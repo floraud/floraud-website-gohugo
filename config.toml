@@ -12,7 +12,6 @@ DefaultContentLanguage = "fr"
 
 # Nombre d'article par page
 pagination.pagerSize = 9
-enableRobotsTXT = true
 
 [module]
 [[module.imports]]
